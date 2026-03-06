@@ -6,11 +6,12 @@ class Player : Card
 {
     private int[] _answerCards;
     public int[] AnswerCards { get { return _answerCards; } }
+    
     public bool IsFind { get; private set; } = false;
-   
+
     public Player()
     {
-        _answerCards = new int[16];
+        _answerCards = new int[CardsLength];
     }
 
     public void PushCard(int index)

@@ -8,11 +8,11 @@ class Game : Player
     protected int CardIndex1;
     protected int CardIndex2;
     private int _turnCount = 1;
-    private int _cols = 4;
+    //private int _cols = 4;
     private string input = string.Empty;
 
-    //private Player player;
-    public int Cols { get { return _cols; } }
+    
+    //public int Cols { get { return _cols; } }
     
     public Game() 
     {
@@ -145,10 +145,10 @@ class Game : Player
             Console.Write($"{i + 1}열 ");
         }
         Console.WriteLine();
-        for (int i = 0;i < Cols; i++)
+        for (int i = 0;i < AnswerCards.Length / Cols; i++)
         {
             Console.Write($"{i + 1}행 ");
-            for (int j = 0; j < AnswerCards.Length / Cols; j++)
+            for (int j = 0; j < Cols; j++)
             {
                 if (AnswerCards[i * Cols + j] == 0)
                 {
@@ -156,9 +156,10 @@ class Game : Player
                 }
                 else { Console.Write($"[{AnswerCards[i * Cols + j]}]  "); }
             }
+            
             Console.WriteLine();
         }
-        Console.WriteLine($"시도 횟수: {_turnCount / 2} | 찾은 쌍: {AnswerCount}/8");
+        Console.WriteLine($"시도 횟수: {_turnCount / 2} | 찾은 쌍: {AnswerCount}/{AnswerCards.Length/2}");
         Console.WriteLine();
     }
 }
