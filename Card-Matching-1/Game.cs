@@ -6,29 +6,24 @@ using System.Text;
 // --- card 매칭 게임 플레이하는 클래스 ---
 class Game : Player
 {
-    protected int CardIndex1;
-    protected int CardIndex2;
+    private int CardIndex1;
+    private int CardIndex2;
     private int _turnCount = 1;
     private string input = string.Empty;
-
-
-
-    public Game()
-    {
-
-    }
+    public Game() { }
 
     // --- 카드 매칭 게임 플레이하는 메서드 ---
     public void Play()
     {
         Thread.Sleep(1000);
 
+        DisplayPreview(SkinMode);
 
         while ((_turnCount / 2) < TrialCount)
         {
             Console.Clear();
             Console.WriteLine();
-            PrintCards();
+            SelectAndPrint(SkinMode);
             if (AnswerCount == AnswerCards.Length / 2) { break; }
             FirstTurn();
             SecondTurn();
@@ -65,7 +60,7 @@ class Game : Player
         } while (IsFind);
         _turnCount++;
         Console.Clear();
-        PrintCards();
+        SelectAndPrint(SkinMode);
 
     }
 
@@ -82,7 +77,7 @@ class Game : Player
         } while (IsFind);
         _turnCount++;
         Console.Clear();
-        PrintCards();
+        SelectAndPrint(SkinMode);
         PushOrRemoveCard(CardIndex1, CardIndex2);
 
     }
@@ -158,8 +153,58 @@ class Game : Player
         return i * Cols + j;
     }
 
+    public void DisplayPreview(int skinmode)
+    {
+        int previewTime = 0;
+        Console.Write("    ");
+        for (int i = 0; i < EntireCards.Length / Cols; i++)
+        {
+            Console.Write($"{i + 1}열  ");
+        }
+        Console.WriteLine();
+        for (int i = 0; i < EntireCards.Length / Cols; i++)
+        {
+            Console.Write($"{i + 1}행 ");
+            for (int j = 0; j < Cols; j++)
+            {
+                if (skinmode == 1)
+                {
+                    Console.Write($"[{EntireCards[i * Cols + j]}]  ");
+                }
+                else if (skinmode == 2)
+                {
+                    GetColor(EntireCards[i * Cols + j]);
+                    char alphaCard = (char)(EntireCards[i * Cols + j] + 65);
+                    Console.Write($"[{alphaCard}]  ");
+                    Console.ResetColor();
+                }
+                else
+                {
+                    GetColor(EntireCards[i * Cols + j]);
+                    string emojiCard = GetDisplay(EntireCards[i * Cols + j]);
+                    Console.Write($"[{emojiCard}]  ");
+                    Console.ResetColor();
+                }
+            }
+
+            Console.WriteLine();
+        }
+        if (TrialCount == 10) { previewTime = 5; }
+        else if (TrialCount == 20) { previewTime = 3; }
+        else { previewTime = 2; }
+        Console.WriteLine();
+        Console.WriteLine($"잘 기억하세요! ({previewTime}초 후 뒤집힙니다)");
+        Thread.Sleep(previewTime * 1000);
+    }
+    public void SelectAndPrint(int skinmode)
+    {
+        if (skinmode == 1) { PrintBasicCards(); }
+        else if (skinmode == 2) { PrintAlphaCards(); }
+        else { PrintEmojiCards(); }
+    }
+
     // --- 카드판 출력 메서드 ---
-    public void PrintCards()
+    public void PrintBasicCards()
     {
         Console.WriteLine("=== 카드 짝 맞추기 게임 ===");
         Console.WriteLine();
@@ -179,9 +224,82 @@ class Game : Player
                     string star = "**";
                     Console.Write(star.PadRight(5));
                 }
-                else { Console.Write($"[{AnswerCards[i * Cols + j]}]  "); }
+                else
+                {
+                    Console.Write($"[{AnswerCards[i * Cols + j]}]  ");
+                }
             }
+            Console.WriteLine();
+        }
+        Console.WriteLine($"시도 횟수: {_turnCount / 2}/{TrialCount} | 찾은 쌍: {AnswerCount}/{AnswerCards.Length / 2}");
+        Console.WriteLine();
+    }
 
+    public void PrintAlphaCards()
+    {
+        Console.WriteLine("=== 카드 짝 맞추기 게임 ===");
+        Console.WriteLine();
+        Console.Write("    ");
+        for (int i = 0; i < Cols; i++)
+        {
+            Console.Write($"{i + 1}열  ");
+        }
+        Console.WriteLine();
+        for (int i = 0; i < AnswerCards.Length / Cols; i++)
+        {
+            Console.Write($"{i + 1}행 ");
+            for (int j = 0; j < Cols; j++)
+            {
+                if (AnswerCards[i * Cols + j] == 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    string star = "**";
+                    Console.Write(star.PadRight(5));
+                    Console.ResetColor();
+                }
+                else
+                {
+                    GetColor(AnswerCards[i * Cols + j]);
+                    char alphaCard = (char)(EntireCards[i * Cols + j] + 65);
+                    Console.Write($"[{alphaCard}]  ");
+                    Console.ResetColor();
+                }
+            }
+            Console.WriteLine();
+        }
+        Console.WriteLine($"시도 횟수: {_turnCount / 2}/{TrialCount} | 찾은 쌍: {AnswerCount}/{AnswerCards.Length / 2}");
+        Console.WriteLine();
+    }
+    public void PrintEmojiCards()
+    {
+        Console.WriteLine("=== 카드 짝 맞추기 게임 ===");
+        Console.WriteLine();
+        Console.Write("    ");
+        for (int i = 0; i < Cols; i++)
+        {
+            Console.Write($"{i + 1}열  ");
+        }
+        Console.WriteLine();
+        for (int i = 0; i < AnswerCards.Length / Cols; i++)
+        {
+            Console.Write($"{i + 1}행 ");
+            for (int j = 0; j < Cols; j++)
+            {
+                if (AnswerCards[i * Cols + j] == 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    string star = "**";
+                    Console.Write(star.PadRight(5));
+                    Console.ResetColor();
+                }
+                else
+                {
+                    GetColor(AnswerCards[i * Cols + j]);
+                    string emojiCard = GetDisplay(AnswerCards[i * Cols + j]);
+                    Console.Write($"[{emojiCard}]  ");
+                    Console.ResetColor();
+                }
+            }
             Console.WriteLine();
         }
         Console.WriteLine($"시도 횟수: {_turnCount / 2}/{TrialCount} | 찾은 쌍: {AnswerCount}/{AnswerCards.Length / 2}");

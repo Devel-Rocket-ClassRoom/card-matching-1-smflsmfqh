@@ -8,8 +8,10 @@ class Player : Card
 {
     private int[] _answerCards;
     public int[] AnswerCards { get { return _answerCards; } } // 짝을 맞춘 카드를 담는 배열
-    public int TrialCount { get { return SetTrialCount; } } // 레벨에 따른 시도 횟수 속성
+    protected override int TrialCount => base.TrialCount;
     public bool IsFind { get; private set; } = false;
+    protected int[] EntireCards { get { return Cards.cards; } } // Game 클래스에서 전체 카드 출력용 카드 배열 for 미리보기
+    protected override int SkinMode => base.SkinMode;
 
     // --- 생성자 ---
     // 카드 클래스에서 생성된 카드 배열에 따라 플레이어가 선택한 카드를 담을 배열 생성
@@ -26,6 +28,7 @@ class Player : Card
             AnswerCards[index] = GetCard(index);
         }
     }
+
 
     // --- 플레이어 카드 배열에 이미 있는 카드인지 검사하는 메서드 ---
     public bool IsAlreadyFind(int index)
@@ -54,6 +57,15 @@ class Player : Card
             AnswerCards[index2] = 0;
         }
 
+    }
+    public override string GetDisplay(int cardValue)
+    {
+        return base.GetDisplay(cardValue);
+    }
+
+    public override ConsoleColor GetColor(int cardValue)
+    {
+        return base.GetColor(cardValue);
     }
 
 }

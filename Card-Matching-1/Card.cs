@@ -4,55 +4,57 @@ using System.Text;
 using System.Threading;
 
 // --- 카드 관리하는 클래스 ---
-class Card
+class Card : ICardSkin
 {
     protected LevelCards Cards;
     public int Cols { get; private set; }
     public int CardsLength { get; private set; }
     protected int AnswerCount { get; private set; } = 0;
-    protected int SetTrialCount { get; private set; } = 0;
+    protected virtual int TrialCount { get; private set; } = 0;
+    protected virtual int SkinMode { get; private set; }
 
     // --- 카드 생성자 ---
     // 레벨 선택 후, 레벨에 맞는 카드 배열 생성한 뒤 셔플
     public Card()
     {
-        int level = LevelSelect();
+        int level = SelectLevel();
         Cards = new LevelCards(level);
-        SelectCols(level);
-        SelectTryCount(level);
+        SetCols(level);
+        SetTryCount(level);
+        SelectSkin();
         CardsLength = Cards.cards.Length;
         Shuffle();
     }
     
     // --- 레벨에 따라 시도횟수 초기화 메서드 ---
-    public int SelectTryCount(int level)
+    public int SetTryCount(int level)
     {
         switch (level)
         {
             case 1:
                 {
-                    SetTrialCount = 10;
+                    TrialCount = 10;
                 }
                 break;
             case 2:
                 {
-                    SetTrialCount = 20;
+                    TrialCount = 20;
                 }
                 break;
             case 3:
                 {
-                    SetTrialCount = 30;
+                    TrialCount = 30;
                 }
                 break;
             default:
-                { SetTrialCount = 30; }
+                { TrialCount = 30; }
                 break;
         }
-        return SetTrialCount;
+        return TrialCount;
     }
 
     // --- 레벨 선택에 따라 출력 열 초기화 메서드 ---
-    public int SelectCols(int level)
+    public int SetCols(int level)
     {
         switch (level)
         {
@@ -80,7 +82,7 @@ class Card
 
     // --- 레벨 선택 메서드 ---
     // 사용자의 입력을 받아 정수 변환 및 레벨 열거형에 맞는지 검토 후 반환
-    public int LevelSelect()
+    public int SelectLevel()
     {
         bool IsValidate = false;
         int level = 0;
@@ -112,6 +114,31 @@ class Card
         return level;
     }
 
+    public int SelectSkin()
+    {
+        int skin = 0;
+        Console.WriteLine("카드 스킨을 선택하세요.: ");
+        Console.WriteLine("1. 숫자 (기본)");
+        Console.WriteLine("2. 알파벳 (컬러)");
+        Console.WriteLine("3. 기호 (컬러)");
+        Console.Write("선택: ");
+        do
+        {
+            string input = Console.ReadLine();
+            if (int.TryParse(input, out skin))
+            {
+                if (skin >= 1 && skin <= 3)
+                {
+                    break;
+                }
+            }
+            else { Console.WriteLine("1 (숫자 - 기본), 2 (알파벳 - 컬러), 3 (기호 - 컬러) 중 하나를 선택해주세요."); }
+        } while (true);
+
+        SkinMode = skin;
+        return SkinMode;
+    }
+
     // --- 카드를 셔플하는 메서드 ---
     public void Shuffle()
     {
@@ -130,6 +157,97 @@ class Card
     public int GetCard(int cardIndex)
     {
         return Cards.cards[cardIndex];
+    }
+
+    public virtual string GetDisplay(int cardValue)
+    {
+        switch (cardValue)
+        {
+            case 1:
+                { return "○"; }
+                break;
+            case 2:
+                { return "☐"; }
+                break;
+            case 3:
+                { return "△"; }
+                break;
+            case 4:
+                { return "⭐︎"; }
+                break;
+            case 5:
+                { return "✧"; }
+                break;
+            case 6:
+                { return "♡"; }
+                break;
+            case 7:
+                { return "♢"; }
+                break;
+            case 8:
+                { return "♘"; }
+                break;
+            case 9:
+                { return "♔"; }
+                break;
+            case 10:
+                { return "⚾︎"; }
+                break;
+            case 11:
+                { return "☘"; }
+                break;
+            case 12:
+                { return "☻"; }
+                break;
+            default:
+                { return "☓"; }
+                break;
+        }
+    }
+    public virtual ConsoleColor GetColor(int cardValue)
+    {
+        switch (cardValue)
+        {
+            case 1:
+                { return Console.ForegroundColor = ConsoleColor.Blue; }
+                break;
+            case 2:
+                { return Console.ForegroundColor = ConsoleColor.Black; }
+                break;
+            case 3:
+                { return Console.ForegroundColor = ConsoleColor.Magenta; }
+                break;
+            case 4:
+                { return Console.ForegroundColor = ConsoleColor.Yellow; }
+                break;
+            case 5:
+                { return Console.ForegroundColor = ConsoleColor.DarkCyan; }
+                break;
+            case 6:
+                { return Console.ForegroundColor = ConsoleColor.Red; }
+                break;
+            case 7:
+                { return Console.ForegroundColor = ConsoleColor.Cyan; }
+                break;
+            case 8:
+                { return Console.ForegroundColor = ConsoleColor.DarkMagenta; }
+                break;
+            case 9:
+                { return Console.ForegroundColor = ConsoleColor.DarkRed; }
+                break;
+            case 10:
+                { return Console.ForegroundColor = ConsoleColor.DarkBlue; }
+                break;
+            case 11:
+                { return Console.ForegroundColor = ConsoleColor.Green; };
+                break;
+            case 12:
+                { return Console.ForegroundColor = ConsoleColor.DarkGreen; }
+                break;
+            default:
+                { return Console.ForegroundColor = ConsoleColor.White; }
+                break;
+        }
     }
 
     // --- 플레이어가 뽑은 카드 두 장이 같은 카드인지 검사 ---
