@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
 
 // --- 카드 관리하는 클래스 ---
 class Card : ICardSkin
@@ -27,7 +24,7 @@ class Card : ICardSkin
     }
     
     // --- 레벨에 따라 시도횟수 초기화 메서드 ---
-    public int SetTryCount(int level)
+    private int SetTryCount(int level)
     {
         switch (level)
         {
@@ -54,7 +51,7 @@ class Card : ICardSkin
     }
 
     // --- 레벨 선택에 따라 출력 열 초기화 메서드 ---
-    public int SetCols(int level)
+    private int SetCols(int level)
     {
         switch (level)
         {
@@ -82,7 +79,7 @@ class Card : ICardSkin
 
     // --- 레벨 선택 메서드 ---
     // 사용자의 입력을 받아 정수 변환 및 레벨 열거형에 맞는지 검토 후 반환
-    public int SelectLevel()
+    private int SelectLevel()
     {
         bool IsValidate = false;
         int level = 0;
@@ -114,7 +111,7 @@ class Card : ICardSkin
         return level;
     }
 
-    public int SelectSkin()
+    private int SelectSkin()
     {
         int skin = 0;
         Console.WriteLine("카드 스킨을 선택하세요.: ");
@@ -154,7 +151,7 @@ class Card : ICardSkin
     }
 
     // --- 플레이어가 카드를 뽑을 때 카드 한 장 반환 ---
-    public int GetCard(int cardIndex)
+    protected int GetCard(int cardIndex)
     {
         return Cards.cards[cardIndex];
     }

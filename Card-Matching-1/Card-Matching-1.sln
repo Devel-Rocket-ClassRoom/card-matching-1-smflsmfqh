@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Card-Matching-1", "Card-Matching-1.csproj", "{FF100EE4-ED73-9327-7DD3-F83DA3330552}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FF100EE4-ED73-9327-7DD3-F83DA3330552}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF100EE4-ED73-9327-7DD3-F83DA3330552}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF100EE4-ED73-9327-7DD3-F83DA3330552}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF100EE4-ED73-9327-7DD3-F83DA3330552}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2E942C69-262D-4222-9C1F-4F0499B90D64}
+	EndGlobalSection
+EndGlobal

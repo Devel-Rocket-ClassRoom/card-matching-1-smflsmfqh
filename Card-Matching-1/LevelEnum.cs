@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿// --- 게임 레벨을 담는 열거형 ---
 enum LevelEnum
 {
     Basic = 1,

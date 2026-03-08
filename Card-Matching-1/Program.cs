@@ -1,5 +1,7 @@
 using System;
 
+// --- 메인: 게임 실행 ---
+
 string input = "y";
 do
 {
